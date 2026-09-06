@@ -17,17 +17,19 @@
         }
 
         :root {
-            --primary: #1e1e1e;
-            --secondary: #2b2f36;
-            --accent: #3a3f47;
-            --light-bg: #f7f8fa;
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --accent-light: #e94560;
+            --light-bg: #f0f2f5;
             --card-bg: #ffffff;
             --border-light: #e6e8ec;
-            --text-main: #1e1e1e;
+            --text-main: #1a1a2e;
             --text-muted: #5d636e;
             --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.10), 0 8px 24px -6px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 30px 50px -12px rgba(0, 0, 0, 0.20), 0 12px 30px -8px rgba(0, 0, 0, 0.08);
             --radius: 24px;
-            --transition: 0.25s ease;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         html {
@@ -36,10 +38,16 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f2f4f8;
+            background: #eef0f3;
             color: var(--text-main);
             line-height: 1.6;
             padding: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         a {
@@ -50,6 +58,18 @@
         .container {
             max-width: 1100px;
             margin: 0 auto;
+        }
+
+        /* ----- SCROLL ANIMATION ----- */
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ----- NAVIGATION ----- */
@@ -64,6 +84,16 @@
             flex-wrap: wrap;
             margin-bottom: 2rem;
             border: 1px solid rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 1.5rem;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
 
         .logo {
@@ -71,9 +101,16 @@
             font-size: 1.2rem;
             letter-spacing: -0.3px;
             color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
         }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
         .logo span {
-            color: #5d636e;
+            color: var(--accent-light);
             font-weight: 400;
         }
 
@@ -91,12 +128,28 @@
             padding: 0.4rem 0.2rem;
             border-bottom: 2px solid transparent;
             transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-light);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
         }
 
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--primary);
-            border-bottom-color: var(--primary);
         }
 
         .btn-primary {
@@ -110,10 +163,16 @@
             border: 1px solid var(--primary);
         }
 
+        .btn-primary::after {
+            display: none !important;
+        }
+
         .btn-primary:hover {
-            background: transparent;
-            color: var(--primary) !important;
-            border-bottom: 1px solid var(--primary) !important;
+            background: var(--accent-light);
+            color: white !important;
+            border-color: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
         }
 
         /* ----- HERO ----- */
@@ -128,6 +187,11 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 2rem;
+            transition: var(--transition);
+        }
+
+        .hero:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .hero-content {
@@ -145,6 +209,12 @@
             color: var(--text-muted);
             border: 1px solid var(--border-light);
             margin-bottom: 0.6rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
         .hero-content h1 {
@@ -156,9 +226,11 @@
         }
 
         .hero-content h1 .highlight {
-            background: #eef0f3;
+            background: linear-gradient(120deg, #e94560 0%, #e94560 40%, #0f3460 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             padding: 0 0.2rem;
-            border-radius: 8px;
         }
 
         .hero-content p {
@@ -189,6 +261,8 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 26, 46, 0.2);
         }
 
         .hero-actions .btn-dark {
@@ -203,8 +277,10 @@
         }
 
         .hero-actions .btn-dark:hover {
-            background: transparent;
-            color: var(--primary);
+            background: var(--accent-light);
+            border-color: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
         }
 
         .hero-avatar {
@@ -218,14 +294,22 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            background: var(--light-bg);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             border: 4px solid var(--border-light);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 4rem;
-            color: var(--secondary);
+            color: white;
             font-weight: 300;
+            transition: var(--transition);
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(15, 52, 96, 0.2);
+        }
+
+        .hero-avatar .avatar-circle:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 12px 40px rgba(15, 52, 96, 0.3);
         }
 
         /* ----- SECTION umum ----- */
@@ -236,6 +320,11 @@
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
             border: 1px solid rgba(0, 0, 0, 0.02);
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .section-title {
@@ -251,7 +340,7 @@
         }
 
         .section-title i {
-            color: var(--text-muted);
+            color: var(--accent-light);
             font-size: 1rem;
         }
 
@@ -275,40 +364,103 @@
             .navbar {
                 padding: 0.5rem 1.2rem;
                 border-radius: 30px;
+                top: 1rem;
             }
             .section {
                 padding: 1.8rem 1.5rem;
             }
         }
 
-        /* ----- ABOUT / TENTANG ----- */
+        /* ============================================
+           DATA DIRI - RAPI & MODERN
+           ============================================ */
+        .profile-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Bio singkat */
         .about-text {
             font-size: 0.95rem;
             color: var(--text-main);
-            max-width: 700px;
+            line-height: 1.8;
+            padding: 0.5rem 0;
         }
 
-        .info-grid {
+        .about-text strong {
+            color: var(--accent-light);
+        }
+
+        /* Kartu Info Diri */
+        .info-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.3rem 1.5rem;
-            margin-top: 0.8rem;
+            gap: 0.75rem 1.5rem;
         }
 
-        .info-grid .item {
+        .info-card-item {
             display: flex;
-            justify-content: space-between;
-            padding: 0.25rem 0;
-            border-bottom: 1px dashed #eef0f3;
-            font-size: 0.9rem;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1rem;
+            background: var(--light-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
         }
 
-        .info-grid .item .label {
-            font-weight: 500;
-            color: var(--secondary);
+        .info-card-item:hover {
+            background: white;
+            border-color: var(--accent-light);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
-        .info-grid .item .value {
+
+        .info-card-item .icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .info-card-item .icon.accent {
+            background: var(--accent-light);
+        }
+
+        .info-card-item .info-content {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .info-card-item .info-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .info-card-item .info-value {
+            font-size: 0.85rem;
+            font-weight: 500;
             color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 600px) {
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ----- SKILLS (tags) ----- */
@@ -323,12 +475,17 @@
             color: var(--secondary);
             margin: 0.2rem 0.15rem;
             transition: var(--transition);
+            cursor: default;
         }
+
         .skill-tag:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(26, 26, 46, 0.2);
         }
+
         .skill-tag i {
             margin-right: 0.3rem;
             font-size: 0.7rem;
@@ -337,7 +494,18 @@
         /* ----- EXPERIENCE ----- */
         .exp-item {
             margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
         }
+
+        .exp-item:hover {
+            background: var(--light-bg);
+            border-left-color: var(--accent-light);
+            transform: translateX(5px);
+        }
+
         .exp-item:last-child {
             margin-bottom: 0;
         }
@@ -366,6 +534,12 @@
             padding: 0.15rem 0.8rem;
             border-radius: 40px;
             color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .exp-item:hover .exp-date {
+            background: var(--primary);
+            color: white;
         }
 
         .exp-desc ul {
@@ -382,7 +556,7 @@
             align-items: flex-start;
         }
         .exp-desc li i {
-            color: var(--text-muted);
+            color: var(--accent-light);
             font-size: 0.5rem;
             margin-top: 0.5rem;
             width: 0.8rem;
@@ -391,7 +565,16 @@
         /* ----- EDUCATION ----- */
         .edu-item {
             margin-bottom: 0.6rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: var(--transition);
         }
+
+        .edu-item:hover {
+            background: var(--light-bg);
+            transform: translateX(5px);
+        }
+
         .edu-item .school {
             font-weight: 600;
         }
@@ -408,18 +591,23 @@
             flex-wrap: wrap;
         }
 
-        /* ----- PORTFOLIO / PROJECT (placeholder) ----- */
+        /* ----- PORTFOLIO / PROJECT ----- */
         .project-card {
             background: var(--light-bg);
             border-radius: 16px;
             padding: 1.2rem 1.5rem;
             border: 1px solid var(--border-light);
             transition: var(--transition);
+            cursor: pointer;
         }
+
         .project-card:hover {
             background: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent-light);
         }
+
         .project-card h4 {
             font-weight: 600;
             font-size: 1rem;
@@ -437,6 +625,13 @@
             border-radius: 40px;
             border: 1px solid var(--border-light);
             margin-top: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .tag {
+            background: var(--accent-light);
+            color: white;
+            border-color: var(--accent-light);
         }
 
         /* ----- CONTACT / FOOTER ----- */
@@ -446,6 +641,7 @@
             gap: 1.5rem 3rem;
             align-items: center;
         }
+
         .contact-row a {
             display: inline-flex;
             align-items: center;
@@ -453,13 +649,20 @@
             font-size: 0.9rem;
             color: var(--text-muted);
             transition: var(--transition);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
         }
+
         .contact-row a:hover {
             color: var(--primary);
+            background: var(--light-bg);
+            transform: translateY(-2px);
         }
+
         .contact-row i {
             font-size: 1.1rem;
             width: 1.4rem;
+            color: var(--accent-light);
         }
 
         .footer-note {
@@ -473,9 +676,21 @@
             flex-wrap: wrap;
         }
 
+        /* ----- TYPING EFFECT ----- */
+        .typing-text {
+            display: inline-block;
+            border-right: 3px solid var(--accent-light);
+            animation: blink 0.8s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: var(--accent-light); }
+            50% { border-color: transparent; }
+        }
+
         /* ----- RESPONSIVE micro ----- */
         @media (max-width: 500px) {
-            .info-grid {
+            .info-cards {
                 grid-template-columns: 1fr;
             }
             .hero-content h1 {
@@ -493,10 +708,10 @@
 <body>
     <div class="container">
         <!-- NAVIGATION -->
-        <nav class="navbar">
+        <nav class="navbar" id="navbar">
             <div class="logo">PAMILU ANDRE SETIYAJI<span>.id</span></div>
             <div class="nav-links">
-                <a href="#" class="active">Beranda</a>
+                <a href="#beranda" class="active">Beranda</a>
                 <a href="#tentang">Tentang</a>
                 <a href="#pengalaman">Pengalaman</a>
                 <a href="#portofolio">Portofolio</a>
@@ -509,43 +724,89 @@
             <div class="hero-content">
                 <div class="badge"><i class="fas fa-user-graduate"></i> Mahasiswa Manajemen · Keuangan</div>
                 <h1>Halo, saya <span class="highlight">Pamilu Andre Setiyaji</span></h1>
-                <p>Manajemen keuangan, analisis, dan pengelolaan perusahaan. Investment Trainer dengan pengalaman edukasi pasar modal.</p>
+                <p>
+                    <span class="typing-text" id="typing-text">Manajemen keuangan, analisis, dan pengelolaan perusahaan.</span>
+                </p>
                 <div class="hero-actions">
                     <a href="#kontak" class="btn-dark"><i class="fas fa-paper-plane"></i> Hubungi</a>
-                    <a href="#" class="btn-outline"><i class="fas fa-file-pdf"></i> Download CV</a>
+                    <a href="#" class="btn-outline" id="download-cv"><i class="fas fa-file-pdf"></i> Download CV</a>
                 </div>
             </div>
             <div class="hero-avatar">
-                <div class="avatar-circle">M</div>
+                <div class="avatar-circle" id="avatar-circle">M</div>
             </div>
         </section>
 
-        <!-- TENTANG + DATA DIRI -->
+        <!-- TENTANG + DATA DIRI (RAPI) -->
         <section class="section" id="tentang">
             <div class="section-title"><i class="fas fa-user-astronaut"></i> Tentang Saya</div>
             <div class="grid-2">
+                <!-- Kolom kiri: Bio -->
                 <div>
                     <p class="about-text">
-                        Mahasiswa S1 Manajemen dengan fokus pada manajemen keuangan, analisis keuangan, dan pengelolaan keuangan perusahaan. 
+                        Mahasiswa S1 Manajemen dengan fokus pada <strong>manajemen keuangan</strong>, analisis keuangan, dan pengelolaan keuangan perusahaan. 
                         Berpengalaman sebagai <strong>Investment Trainer</strong> di Phintraco Sekuritas, mengembangkan kemampuan analitis, 
                         komunikasi, dan pengambilan keputusan. Teliti, adaptif, serta mampu bekerja secara individu maupun tim. 
                         Memiliki motivasi tinggi untuk mengembangkan kompetensi profesional di bidang keuangan.
                     </p>
                 </div>
+
+                <!-- Kolom kanan: Data Diri dalam Kartu -->
                 <div>
-                    <div class="info-grid">
-                        <div class="item"><span class="label">Tempat, Tgl Lahir</span><span class="value">Purworejo, 05 Apr 2004</span></div>
-                        <div class="item"><span class="label">Jenis Kelamin</span><span class="value">Pria</span></div>
-                        <div class="item"><span class="label">Status</span><span class="value">Belum Menikah</span></div>
-                        <div class="item"><span class="label">Kewarganegaraan</span><span class="value">Indonesia</span></div>
-                        <div class="item"><span class="label">Domisili</span><span class="value">Purworejo, Jateng</span></div>
-                        <div class="item"><span class="label">Email</span><span class="value">milupam001@gmail.com</span></div>
+                    <div class="info-cards">
+                        <div class="info-card-item">
+                            <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Tempat, Tgl Lahir</span>
+                                <span class="info-value">Purworejo, 05 Apr 2004</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card-item">
+                            <div class="icon accent"><i class="fas fa-venus-mars"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Jenis Kelamin</span>
+                                <span class="info-value">Pria</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card-item">
+                            <div class="icon"><i class="fas fa-heart"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Status</span>
+                                <span class="info-value">Belum Menikah</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card-item">
+                            <div class="icon accent"><i class="fas fa-flag"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Kewarganegaraan</span>
+                                <span class="info-value">Indonesia</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card-item">
+                            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Domisili</span>
+                                <span class="info-value">Purworejo, Jateng</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card-item">
+                            <div class="icon accent"><i class="fas fa-envelope"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">milupam001@gmail.com</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PENDIDIKAN & SKILLS (gabung) -->
+        <!-- PENDIDIKAN & SKILLS -->
         <section class="section">
             <div class="grid-2">
                 <div>
@@ -567,8 +828,8 @@
                         <span class="skill-tag"><i class="fas fa-chart-line"></i> Analisis Keuangan</span>
                         <span class="skill-tag"><i class="fas fa-file-invoice"></i> Financial Reporting</span>
                         <span class="skill-tag"><i class="fas fa-table"></i> Microsoft Office</span>
-                        <span class="skill-tag"><i class="fas fa-database"></i> Data Entry & Processing</span>
-                        <span class="skill-tag"><i class="fas fa-people-arrows"></i> Teamwork & Collaboration</span>
+                        <span class="skill-tag"><i class="fas fa-database"></i> Data Entry</span>
+                        <span class="skill-tag"><i class="fas fa-people-arrows"></i> Teamwork</span>
                         <span class="skill-tag"><i class="fas fa-comment-dots"></i> Communication</span>
                         <span class="skill-tag"><i class="fas fa-brain"></i> Analytical Thinking</span>
                         <span class="skill-tag"><i class="fas fa-language"></i> Inggris (Intermediate)</span>
@@ -599,26 +860,26 @@
             </div>
         </section>
 
-        <!-- PORTOFOLIO (project placeholder) -->
+        <!-- PORTOFOLIO -->
         <section class="section" id="portofolio">
             <div class="section-title"><i class="fas fa-folder-open"></i> Portofolio & Proyek</div>
             <div class="grid-2">
-                <div class="project-card">
+                <div class="project-card" onclick="alert('Detail proyek: Analisis saham sektor finansial menggunakan data historis IDX.')">
                     <h4>Analisis Saham IDX</h4>
                     <p>Proyek analisis fundamental dan teknikal saham sektor finansial menggunakan data historis.</p>
                     <span class="tag"><i class="fas fa-chart-simple"></i> Keuangan</span>
                 </div>
-                <div class="project-card">
+                <div class="project-card" onclick="alert('Detail proyek: Materi pelatihan dan simulasi trading untuk investor pemula.')">
                     <h4>Edukasi Pasar Modal</h4>
                     <p>Materi pelatihan dan simulasi trading untuk investor pemula, mencakup manajemen risiko.</p>
                     <span class="tag"><i class="fas fa-graduation-cap"></i> Training</span>
                 </div>
-                <div class="project-card">
+                <div class="project-card" onclick="alert('Detail proyek: Laporan keuangan dan analisis rasio untuk perusahaan.')">
                     <h4>Laporan Keuangan</h4>
                     <p>Penyusunan laporan keuangan sederhana dan analisis rasio untuk perusahaan.</p>
                     <span class="tag"><i class="fas fa-file-invoice"></i> Reporting</span>
                 </div>
-                <div class="project-card">
+                <div class="project-card" onclick="alert('Detail proyek: Dashboard portofolio saham dengan Excel & Power BI.')">
                     <h4>Dashboard Monitoring</h4>
                     <p>Prototype dashboard portofolio saham dengan Excel & Power BI (studi mandiri).</p>
                     <span class="tag"><i class="fas fa-dashboard"></i> Data</span>
@@ -626,14 +887,14 @@
             </div>
         </section>
 
-        <!-- KONTAK / FOOTER -->
+        <!-- KONTAK -->
         <section class="section" id="kontak" style="margin-bottom: 0;">
             <div class="section-title"><i class="fas fa-address-card"></i> Kontak & Sosial</div>
             <div class="contact-row">
-                <a href="#"><i class="fas fa-phone-alt"></i> 0895-0768-1621</a>
-                <a href="#"><i class="fas fa-envelope"></i> milupam001@gmail.com</a>
-                <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-                <a href="#"><i class="fab fa-instagram"></i> @milupam</a>
+                <a href="tel:089507681621"><i class="fas fa-phone-alt"></i> 0895-0768-1621</a>
+                <a href="mailto:milupam001@gmail.com"><i class="fas fa-envelope"></i> milupam001@gmail.com</a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i> @milupam</a>
             </div>
             <div class="footer-note">
                 <span><i class="far fa-copyright"></i> 2026 Milupam · Personal Website</span>
@@ -641,5 +902,125 @@
             </div>
         </section>
     </div>
+
+    <script>
+        // ----- NAVBAR SCROLL EFFECT -----
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ----- SCROLL ANIMATION (Intersection Observer) -----
+        const sections = document.querySelectorAll('.section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // ----- NAVIGATION ACTIVE LINK -----
+        const navLinks = document.querySelectorAll('.nav-links a:not(.btn-primary)');
+        const sectionsAll = document.querySelectorAll('section[id]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sectionsAll.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ----- TYPING EFFECT -----
+        const typingText = document.getElementById('typing-text');
+        const phrases = [
+            'Manajemen keuangan, analisis, dan pengelolaan perusahaan.',
+            'Investment Trainer dengan pengalaman edukasi pasar modal.',
+            'Berkomitmen untuk mengembangkan kompetensi profesional.'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) {
+                typingText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => {
+                    isDeleting = true;
+                }, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+
+            const speed = isDeleting ? 50 : 80;
+            setTimeout(typeEffect, speed);
+        }
+
+        typeEffect();
+
+        // ----- AVATAR CLICK INTERACTION -----
+        const avatar = document.getElementById('avatar-circle');
+        avatar.addEventListener('click', () => {
+            avatar.style.transform = 'scale(1.2) rotate(360deg)';
+            avatar.style.transition = 'transform 0.6s ease';
+            setTimeout(() => {
+                avatar.style.transform = 'scale(1) rotate(0deg)';
+            }, 600);
+        });
+
+        // ----- DOWNLOAD CV BUTTON -----
+        document.getElementById('download-cv').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Fitur download CV akan segera tersedia. Silakan hubungi saya untuk mendapatkan CV terbaru.');
+        });
+
+        // ----- SMOOTH SCROLL FOR NAV LINKS -----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
