@@ -82,6 +82,7 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            gap: 0.5rem;
             margin-bottom: 2rem;
             border: 1px solid rgba(0, 0, 0, 0.02);
             position: sticky;
@@ -255,6 +256,9 @@
             font-size: 0.85rem;
             transition: var(--transition);
             background: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
         }
 
         .hero-actions .btn-outline:hover {
@@ -274,6 +278,9 @@
             font-size: 0.85rem;
             border: 1px solid var(--primary);
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
         }
 
         .hero-actions .btn-dark:hover {
@@ -305,12 +312,61 @@
             transition: var(--transition);
             cursor: pointer;
             box-shadow: 0 8px 30px rgba(15, 52, 96, 0.2);
+            overflow: hidden;
         }
 
         .hero-avatar .avatar-circle:hover {
             transform: scale(1.05) rotate(5deg);
             box-shadow: 0 12px 40px rgba(15, 52, 96, 0.3);
         }
+
+        /* FOTO PROFIL */
+        .hero-avatar .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* ----- SOCIAL BUTTONS (Kontak) ----- */
+        .social-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1.2rem;
+        }
+
+        .social-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.45rem 1rem;
+            border-radius: 40px;
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+            background: white;
+            transition: var(--transition);
+        }
+
+        .social-buttons a i {
+            font-size: 0.9rem;
+        }
+
+        .social-buttons a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .social-buttons a.ig:hover     { background: #E1306C; border-color: #E1306C; }
+        .social-buttons a.li:hover     { background: #0A66C2; border-color: #0A66C2; }
+        .social-buttons a.gh:hover     { background: #333333; border-color: #333333; }
+        .social-buttons a.wa:hover     { background: #25D366; border-color: #25D366; }
+        .social-buttons a.mail:hover   { background: var(--accent-light); border-color: var(--accent-light); }
+        .social-buttons a.tiktok:hover { background: #000000; border-color: #000000; }
 
         /* ----- SECTION umum ----- */
         .section {
@@ -380,7 +436,6 @@
             gap: 1.5rem;
         }
 
-        /* Bio singkat */
         .about-text {
             font-size: 0.95rem;
             color: var(--text-main);
@@ -392,7 +447,6 @@
             color: var(--accent-light);
         }
 
-        /* Kartu Info Diri */
         .info-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -729,19 +783,26 @@
                 </p>
                 <div class="hero-actions">
                     <a href="#kontak" class="btn-dark"><i class="fas fa-paper-plane"></i> Hubungi</a>
-                    <a href="#" class="btn-outline" id="download-cv"><i class="fas fa-file-pdf"></i> Download CV</a>
+                    <!-- ===== TOMBOL DOWNLOAD CV (BERFUNGSI) ===== -->
+                    <!-- Ganti "CV-Pamilu-Andre-Setiyaji.pdf" dengan nama file CV Anda -->
+                    <a href="docs/CV-Pamilu Andre Setiyaji-General.pdf" download class="btn-outline" id="download-cv">
+                        <i class="fas fa-file-pdf"></i> Download CV
+                    </a>
                 </div>
             </div>
             <div class="hero-avatar">
-                <div class="avatar-circle" id="avatar-circle">M</div>
+                <!-- ===== FOTO PROFIL ===== -->
+                <!-- Ganti "foto-profil.jpg" dengan file foto Anda -->
+                <div class="avatar-circle" id="avatar-circle">
+                    <img src="images/pamilu.jpg" alt="Foto Pamilu Andre Setiyaji" />
+                </div>
             </div>
         </section>
 
-        <!-- TENTANG + DATA DIRI (RAPI) -->
+        <!-- TENTANG + DATA DIRI -->
         <section class="section" id="tentang">
             <div class="section-title"><i class="fas fa-user-astronaut"></i> Tentang Saya</div>
             <div class="grid-2">
-                <!-- Kolom kiri: Bio -->
                 <div>
                     <p class="about-text">
                         Mahasiswa S1 Manajemen dengan fokus pada <strong>manajemen keuangan</strong>, analisis keuangan, dan pengelolaan keuangan perusahaan. 
@@ -749,9 +810,20 @@
                         komunikasi, dan pengambilan keputusan. Teliti, adaptif, serta mampu bekerja secara individu maupun tim. 
                         Memiliki motivasi tinggi untuk mengembangkan kompetensi profesional di bidang keuangan.
                     </p>
+
+                    <!-- ===== SOSIAL MEDIA (TAMBAHAN DI BAWAH BIO) ===== -->
+                    <!-- Ganti URL dengan akun sosial media Anda -->
+                    <div class="social-buttons">
+                        </a>
+                        <a href="www.linkedin.com/in/pamilu" target="_blank" rel="noopener" class="li">
+                            <i class="fab fa-linkedin-in"></i> LinkedIn
+                        </a>
+                        <a href="https://wa.me/6289507681621" target="_blank" rel="noopener" class="wa">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Kolom kanan: Data Diri dalam Kartu -->
                 <div>
                     <div class="info-cards">
                         <div class="info-card-item">
@@ -890,11 +962,26 @@
         <!-- KONTAK -->
         <section class="section" id="kontak" style="margin-bottom: 0;">
             <div class="section-title"><i class="fas fa-address-card"></i> Kontak & Sosial</div>
+
+            <!-- ===== LINK KONTAK & SOSIAL MEDIA (SUDAH BERFUNGSI) ===== -->
+            <!-- Ganti URL dengan akun Anda -->
             <div class="contact-row">
                 <a href="tel:089507681621"><i class="fas fa-phone-alt"></i> 0895-0768-1621</a>
                 <a href="mailto:milupam001@gmail.com"><i class="fas fa-envelope"></i> milupam001@gmail.com</a>
-                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> pamilu</a>
+                <a href="https://www.linkedin.com/in/USERNAME-LINKEDIN" target="_blank" rel="noopener">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a>
+                <a href="https://www.instagram.com/USERNAME-IG" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://github.com/USERNAME-GITHUB" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://wa.me/6289507681621" target="_blank" rel="noopener">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
             </div>
+
             <div class="footer-note">
                 <span><i class="far fa-copyright"></i> 2026 Milupam · Personal Website</span>
                 <span>Purworejo, Jawa Tengah</span>
@@ -997,12 +1084,6 @@
             setTimeout(() => {
                 avatar.style.transform = 'scale(1) rotate(0deg)';
             }, 600);
-        });
-
-        // ----- DOWNLOAD CV BUTTON -----
-        document.getElementById('download-cv').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Fitur download CV akan segera tersedia. Silakan hubungi saya untuk mendapatkan CV terbaru.');
         });
 
         // ----- SMOOTH SCROLL FOR NAV LINKS -----
